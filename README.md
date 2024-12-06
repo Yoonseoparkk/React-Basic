@@ -1,4 +1,4 @@
-# React-Basic : Unsplash Image API를 활용한 이미지 검색 사이트 만들기
+# React-Basic<br>: Unsplash Image API를 활용한 이미지 검색 사이트 만들기
 
 ## 개발 환경
 1. 프로젝트 환경설정(vite를 활용한 React 설치): <code>npm install vite@latest</code>
