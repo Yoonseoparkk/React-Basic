@@ -3,11 +3,13 @@ import { CardDTO } from '../types/card'
 
 interface Props {
     data: CardDTO
+    handleDialog: (eventValue: boolean) => void
 }
 
-function Card({data}: Props) {
+function Card({data, handleDialog}: Props) {
     const openDialog = () => {
         console.log("openDialog() called!")
+        handleDialog(true)
     }
 
     return (
