@@ -2,7 +2,7 @@ import { CardDTO, Tag } from "@/pages/index/types/card"
 import styles from "./DetailDialog.module.scss"
 import toast, {toastConfig} from 'react-simple-toasts'
 import 'react-simple-toasts/dist/theme/dark.css'
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 toastConfig(
     {theme:'dark'}
@@ -17,8 +17,9 @@ function DetailDialog({data, handleDialog }: Props ) {
     const [bookmark, setBookmark] = useState(false)
 
     // 다이얼로그 끄기
-    const closeDialog = () => {
-         handleDialog(false)
+    const closeDialog = (event: any) => {
+        handleDialog(false)
+        event.stopPropagation()
     }
 
     // 북마크 추가 이벤트
@@ -52,10 +53,19 @@ function DetailDialog({data, handleDialog }: Props ) {
         if (getLocalStorage && getLocalStorage.findIndex((item: CardDTO) => item.id === data.id) > -1) {
             setBookmark(true)
         } else if (!getLocalStorage) return
+
+        // ESC 키를 눌렀을 때, 다이얼로그 창 닫기
+        const escKeyDownCloseDialog = (event: any) => {
+            if (event.key === 'Escape')
+                closeDialog(event)
+        }
+        // 위에 만들어 놓은 escKeyDownCloseDialog를 keydown했을 때, 이벤트로 등록한다.
+        window.addEventListener('keydown', escKeyDownCloseDialog)
+        return () => window.removeEventListener('keydown', escKeyDownCloseDialog)
     }, [])
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={closeDialog}>
             <div className={styles.container__dialog}>
                 <div className={styles.container__dialog__header}>
                     <div className={styles.close}>
